@@ -17,8 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.raysonhenrique.firebaseapp.model.Upload;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
@@ -31,6 +34,8 @@ public class StorageActivity extends AppCompatActivity {
     private ImageView imageView;
     private Uri imageUri=null;
     private EditText editNome;
+    //Referencia p/ um nó RealTimeDB
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference("uploads");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,12 +69,26 @@ public class StorageActivity extends AppCompatActivity {
         String tipo = getFileExtension(imageUri);
         //referencia do arquivo no firebase
         Date d = new Date();
-        String nome= editNome.getText().toString()+"+"+d.getTime();
-        StorageReference imagemRef = storage.getReference().child("imagem/"+nome+tipo);
+        String nome = editNome.getText().toString();
+        StorageReference imagemRef = storage.getReference().child("imagem/"+nome+"."+d.getTime()+"."+tipo);
 
         imagemRef.putFile(imageUri)
         .addOnSuccessListener(taskSnapshot -> {
             Toast.makeText(this, "Upload feito com sucesso!", Toast.LENGTH_SHORT).show();
+            /* inserir dados da imagem na RealTimeDataBase */
+
+            //pegar o URL da imagem
+            taskSnapshot.getStorage().getDownloadUrl()
+                    .addOnSuccessListener(uri -> {
+
+                        //Criando referencia(database) do upload
+                        DatabaseReference refUpload = database.push();
+                        String id = refUpload.getKey();
+                        Upload upload = new Upload(id,nome,uri.toString());
+                        //Salvando upload no db
+                        refUpload.setValue(upload);
+
+                    });
         })
         .addOnFailureListener(e -> {
             e.printStackTrace();
@@ -83,7 +102,7 @@ public class StorageActivity extends AppCompatActivity {
         return MimeTypeMap.getSingleton()
                 .getExtensionFromMimeType(cr.getType(imageUri));
     }
-
+    //Resultado do startActivityResult()
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -115,6 +134,9 @@ public class StorageActivity extends AppCompatActivity {
         .addOnSuccessListener(taskSnapshot -> {
             Toast.makeText(this, "Upload feito com sucesso!", Toast.LENGTH_SHORT).show();
             Log.i("UPLOAD", "Sucesso!");
+
+
+
         })
         .addOnFailureListener(e -> {
             e.printStackTrace();
