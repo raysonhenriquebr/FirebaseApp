@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.raysonhenrique.firebaseapp.model.Upload;
+import com.raysonhenrique.firebaseapp.util.LoadingDialog;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
@@ -66,6 +67,10 @@ public class StorageActivity extends AppCompatActivity {
     }
 
     private void uploadImagemUri(){
+
+        LoadingDialog dialog = new LoadingDialog(this, R.layout.custom_dialog);
+        dialog.startLoadingDialog();
+
         String tipo = getFileExtension(imageUri);
         //referencia do arquivo no firebase
         Date d = new Date();
@@ -86,7 +91,12 @@ public class StorageActivity extends AppCompatActivity {
                         String id = refUpload.getKey();
                         Upload upload = new Upload(id,nome,uri.toString());
                         //Salvando upload no db
-                        refUpload.setValue(upload);
+                        refUpload.setValue(upload)
+                        .addOnSuccessListener(aVoid -> {
+                            dialog.dismissDialog();
+                            Toast.makeText(getApplicationContext(),"Upload feito com sucesso!", Toast.LENGTH_SHORT).show();
+                        finish();
+                        });
 
                     });
         })
