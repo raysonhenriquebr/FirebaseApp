@@ -5,13 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.media.Image;
 import android.os.Bundle;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,7 +56,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onUpdateClick(int position) {
 
+                Upload upload = listaUploads.get(position);
+                Intent intent = new Intent(getApplicationContext(), UpdateActivity.class);
+                //Envia o uploada para a outra Activity
+                intent
+                        .putExtra("upload",upload);
+                startActivity(intent);
             }
+
+
         });
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(getApplicationContext())
