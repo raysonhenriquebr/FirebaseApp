@@ -38,6 +38,15 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(view ->{
             logar();
         });
+        //Caso o usuario logado
+        if(auth.getCurrentUser() != null){
+            String email = auth.getCurrentUser().getEmail();
+            Intent intent = new Intent(getApplicationContext(), NavigationActivity.class);
+            //passar email p/ MainActivity
+            intent.putExtra("email",email);
+            startActivity(intent);
+
+        }
     }
     public void logar() {
         String email = editEmail.getText().toString();

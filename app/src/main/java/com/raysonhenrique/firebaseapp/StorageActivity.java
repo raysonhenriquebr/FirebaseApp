@@ -45,7 +45,6 @@ public class StorageActivity extends AppCompatActivity {
         imageView = findViewById(R.id.storage_image_cel);
         btnGaleria = findViewById(R.id.storage_btn_galeria);
         editNome = findViewById(R.id.storage_edit_nome);
-
         btnUpload.setOnClickListener(v ->{
             if(editNome.getText().toString().isEmpty()){
                 Toast.makeText(this, "Digite um nome para Imagem!", Toast.LENGTH_SHORT).show();
@@ -57,13 +56,9 @@ public class StorageActivity extends AppCompatActivity {
                 uploadImagemByte();
             }
         });
-        btnGaleria.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            //intent implicita - >
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            startActivityForResult(intent,112);
-        });
+
+
+
     }
 
     private void uploadImagemUri(){
