@@ -2,6 +2,16 @@ package com.raysonhenrique.firebaseapp.model;
 
 public class User {
     private String id,email,nome,photoUri;
+    private boolean receiveRequest;
+    //Armazena se o usuario recebeu solicitação
+
+    public void setReceiveRequest(boolean b){
+        this.receiveRequest = b;
+    }
+    public boolean getReceiveRequest(){
+        return receiveRequest;
+    }
+
     public User(){
 
     }
@@ -42,5 +52,8 @@ public class User {
 
     public void setPhotoUri(String photoUri) {
         this.photoUri = photoUri;
+    }
+    public boolean equals(User u){
+        return this.id.equals(u.getId());
     }
 }

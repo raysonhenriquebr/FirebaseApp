@@ -34,16 +34,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/user_recycler_photo"
         app:layout_constraintTop_toBottomOf="@+id/user_recycle_nome" />
+
     <Button
         android:id="@+id/user_recycler_btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Adicionar"
+        android:enabled="true"
+        android:text="ADICIONAR"
         android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:layout_editor_absoluteX="214dp"
-        app:layout_editor_absoluteY="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_editor_absoluteX="214dp"
+        app:layout_editor_absoluteY="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
