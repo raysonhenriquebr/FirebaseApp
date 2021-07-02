@@ -18,5 +18,9 @@
         android:id="@+id/nav_menu_cadastro_imagens"
         android:name="com.raysonhenrique.firebaseapp.fragment.StorageFragment"
         tools:layout="@layout/fragment_storage"/>
+    <fragment
+        android:id="@+id/nav_menu_notification"
+        android:name="com.raysonhenrique.firebaseapp.fragment.NotificationFragment"
+        tools:layout="@layout/fragment_notification"/>
 
 </navigation>
