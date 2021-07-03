@@ -7,6 +7,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.raysonhenrique.firebaseapp.util.NotificationService;
 
 public class NavigationActivity extends AppCompatActivity {
     private ImageView btnMenu;
@@ -47,6 +49,10 @@ public class NavigationActivity extends AppCompatActivity {
 
         //Juntar navController com navView
         NavigationUI.setupWithNavController(navigationView,navController);
+
+        //Criar um serviço
+        Intent service = new Intent(getApplicationContext(), NotificationService.class);
+        getApplicationContext().startService(service);
 
     }
 }

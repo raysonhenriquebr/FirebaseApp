@@ -20,6 +20,7 @@ import com.raysonhenrique.firebaseapp.NavigationActivity;
 import com.raysonhenrique.firebaseapp.R;
 import com.raysonhenrique.firebaseapp.UpdateActivity;
 import com.raysonhenrique.firebaseapp.util.App;
+import com.raysonhenrique.firebaseapp.util.NotificationReceiver;
 
 import static com.raysonhenrique.firebaseapp.util.App.CHANNEL_1;
 
@@ -51,6 +52,14 @@ public class NotificationFragment extends Fragment {
            /* PendingIntent contentIntent = PendingIntent.getActivity(getContext(),0, intent,0);*/
             PendingIntent contentIntent = new NavDeepLinkBuilder(getContext()).setComponentName(NavigationActivity.class).setGraph(R.navigation.nav_graph).setDestination(R.id.nav_menu_imagens).createPendingIntent();
 
+            //Criar um broadcast receiver ->
+            //Ele deve ser ativado EXPLICITAMENTE
+            //Não deve durar mais de 10 seg
+            Intent broadcastIntent = new Intent(getContext(), NotificationReceiver.class);
+            intent.putExtra("toast",msg);
+
+
+            PendingIntent actionIntent = PendingIntent.getBroadcast(getContext(),0,broadcastIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 
             //Criar a notificação
             Notification notification = new NotificationCompat.Builder(getContext(),CHANNEL_1).setSmallIcon(R.drawable.ic_account_circle_black_24dp).setContentTitle(title).setContentText(msg).setPriority(Notification.PRIORITY_HIGH).setContentIntent(contentIntent).addAction(R.drawable.ic_account_circle_black_24dp, "Toast", actionIntent).build();
